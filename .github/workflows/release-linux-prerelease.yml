@@ -58,7 +58,7 @@ jobs:
           cargo generate-rpm --target x86_64-unknown-linux-gnu
           mv target/x86_64-unknown-linux-gnu/generate-rpm/*.rpm ${{ env.RELEASE_DIR }}/
           # tarball
-          tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ steps.tag.outputs.VERSION }}-x86_64-unknown-linux-gnu.tar.xz" -C target/x86_64-unknown-linux-gnu/release mtrans
+          tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ steps.tag.outputs.VERSION }}-x86_64-unknown-linux-gnu.tar.xz" -C target/x86_64-unknown-linux-gnu/release docker-mtrans
       - name: Upload release artifacts
         uses: actions/upload-artifact@v7
         with:

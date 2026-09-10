@@ -98,10 +98,10 @@ jobs:
             mv target/$arch-unknown-linux-gnu/generate-rpm/*.rpm ${{ env.RELEASE_DIR }}/
 
             # gnu tarball
-            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-gnu.tar.xz" -C target/$arch-unknown-linux-gnu/release mtrans
+            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-gnu.tar.xz" -C target/$arch-unknown-linux-gnu/release docker-mtrans
 
             # musl static tarball (for Alpine / musl-based docker)
-            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-musl.tar.xz" -C target/$arch-unknown-linux-musl/release mtrans
+            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-musl.tar.xz" -C target/$arch-unknown-linux-musl/release docker-mtrans
           done
       - name: Upload release artifacts
         uses: actions/upload-artifact@v7
@@ -138,7 +138,7 @@ jobs:
         run: |
           mkdir ${{ env.RELEASE_DIR }}
           for arch in x86_64 aarch64; do
-            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-apple-darwin.tar.xz" -C target/$arch-apple-darwin/release mtrans
+            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-apple-darwin.tar.xz" -C target/$arch-apple-darwin/release docker-mtrans
           done
       - name: Upload release artifacts
         uses: actions/upload-artifact@v7
@@ -181,7 +181,7 @@ jobs:
         run: |
           mkdir "${{ env.RELEASE_DIR }}"
           for arch in x86_64 aarch64; do
-            zip -j "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-pc-windows-msvc.zip" target/$arch-pc-windows-msvc/release/mtrans.exe
+            zip -j "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-pc-windows-msvc.zip" target/$arch-pc-windows-msvc/release/docker-mtrans.exe
           done
       - name: Upload release artifacts
         uses: actions/upload-artifact@v7
