@@ -65,7 +65,7 @@ pub fn resolve_endpoint() -> Result<Endpoint, String> {
 fn default_endpoint() -> Result<String, String> {
     #[cfg(windows)]
     {
-        return Ok(r"\\.\pipe\docker_engine".to_string());
+        Ok(r"\\.\pipe\docker_engine".to_string())
     }
     #[cfg(not(windows))]
     {
