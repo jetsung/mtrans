@@ -29,6 +29,12 @@ serde_json = "1.0.151"
 tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread", "time"] }
 toml = "1.1.4"
 
+# rustc 1.97 起默认透传链接器 stderr（linker_messages lint），
+# 本机 GNU ld 对 rustc 传入的 -O 参数会打印 "ignoring deprecated linker
+# optimization setting '1'"，属误报，故关闭该 lint。
+[lints.rust]
+linker_messages = "allow"
+
 [package.metadata.deb]
 maintainer = "Jetsung Chan <i@jetsung.com>"
 assets = [
