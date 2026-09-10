@@ -1,0 +1,70 @@
+# mtrans 配置文件
+# 取值口径：本文件为唯一来源，只有源镜像走命令行；键缺省或留空时回退内置默认值
+#
+# 以下值为占位示例（已脱敏），按你的实际账号替换：
+#   registry.example.com   -> 目标注册表域名
+#   your-org               -> 组织/命名空间
+#   your-repo              -> 仓库名
+#   your-account           -> GitHub 账号
+
+[setting]
+
+# GitHub Token：触发远程流水线用；未设置时回退环境变量 GITHUB_TOKEN
+# github_token = "ghp_xxx"
+
+# 加密口令：sync 时把登录凭据（~/.docker/config.json 的 auth）加密成加密串
+# （target_auth_secret）传给流水线；流水线内用 GitHub Secret AUTH_PASSPHRASE
+# （值须与本项一致）经 openssl 解密。生成：openssl rand -base64 24
+# auth_passphrase = ""
+
+# 目标注册表（注册表域名）：当前使用的注册表，即目标镜像推送的目的地
+target_registry = "registry.example.com"
+
+# 默认目标路径的两段：target_org/target_repo
+# 目标镜像基础地址 = target_registry/target_org/target_repo
+#                  = registry.example.com/your-org/your-repo
+# 作为回退值：[registries] 目标注册表条目逐键覆盖，条目未设置的键回退到此
+target_org = "your-org"
+target_repo = "your-repo"
+
+# 目标镜像组合模式（以源镜像 example.io/team/shortener:dev 为例）
+# 1 = 单仓库汇聚：源镜像都推进 target_org/target_repo，源镜像名作 tag，源 tag 丢弃
+#     target_registry/target_org/target_repo:<源镜像名>
+#     -> registry.example.com/your-org/your-repo:shortener
+# 2 = 仓库映射：target_org 下按源镜像名建仓库，tag 沿用源 tag
+#     target_registry/target_org/<源镜像名>:<源 tag>
+#     -> registry.example.com/your-org/shortener:dev
+#     （源无 tag 视为 latest；目标注册表不支持子组织，源组织段不保留）
+# 3 = 固定中转：一律推到 target_org/target_repo:mtrans（固定 tag），target_repo 缺省时用 mtrans
+#     target_registry/target_org/<target_repo>:mtrans
+#     -> registry.example.com/your-org/your-repo:mtrans
+#     （忽略源镜像名与 tag）
+mode = 1
+
+[ci]
+
+# GitHub 仓库（owner/name）：远程流水线所在仓库（复制一律经其工作流触发）
+repo = "your-account/docker-build-sync"
+
+# 触发工作流的分支
+branch = "main"
+
+# 工作流文件名（可用 docker mtrans ci 生成模板）
+workflow = "docker-mtrans.yml"
+
+# 复制成功后是否保留该次流水线运行记录（连同日志）；false = 成功即删除
+keep_run = false
+
+# 注册表条目：表键为注册表域名，仅当该注册表是目标注册表（即 target_registry）时生效
+# 条目内 target_org / target_repo 逐键覆盖 [setting] 同名键；未设置的键回退 [setting] 值
+[registries]
+
+[registries."registry.example.com"]
+# 覆盖 [setting] 的 target_org / target_repo
+target_org = "your-org"
+target_repo = "your-repo"
+
+[registries."registry.example.cn"]
+# 覆盖 [setting] 的 target_org / target_repo
+target_org = "your-org"
+target_repo = "your-repo"

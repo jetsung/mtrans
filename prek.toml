@@ -1,0 +1,14 @@
+# prek 配置：Rust 项目 Git 钩子（pre-commit 的 drop-in 替代）。
+# 安装：prek install
+# 手动运行：prek run --all-files
+
+[[repos]]
+repo = "local"  # local 仓库：直接调用 cargo fmt，遵守项目工具链设置
+
+  [[repos.hooks]]
+  id = "rustfmt"
+  name = "rustfmt"
+  description = "Rust 源码格式化（cargo fmt）"
+  entry = "cargo fmt --all -- --check"  # --check 只报差异不改写文件（提交前手动格式化）
+  language = "system"
+  types = ["rust"]
