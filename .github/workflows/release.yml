@@ -78,9 +78,9 @@ jobs:
         run: |
           for arch in x86_64 aarch64 loongarch64; do
             # gnu binaries -> deb/rpm
-            cargo-zigbuild zigbuild -p APP --release --target $arch-unknown-linux-gnu
+            cargo-zigbuild zigbuild -p mtrans --release --target $arch-unknown-linux-gnu
             # musl static binaries -> tar.xz (for Alpine/docker-musl)
-            cargo-zigbuild zigbuild -p APP --release --target $arch-unknown-linux-musl
+            cargo-zigbuild zigbuild -p mtrans --release --target $arch-unknown-linux-musl
           done
       - name: Package .deb, .rpm and musl tarball
         run: |
@@ -98,10 +98,10 @@ jobs:
             mv target/$arch-unknown-linux-gnu/generate-rpm/*.rpm ${{ env.RELEASE_DIR }}/
 
             # gnu tarball
-            tar -cJf "${{ env.RELEASE_DIR }}/APP-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-gnu.tar.xz" -C target/$arch-unknown-linux-gnu/release APP
+            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-gnu.tar.xz" -C target/$arch-unknown-linux-gnu/release mtrans
 
             # musl static tarball (for Alpine / musl-based docker)
-            tar -cJf "${{ env.RELEASE_DIR }}/APP-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-musl.tar.xz" -C target/$arch-unknown-linux-musl/release APP
+            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-unknown-linux-musl.tar.xz" -C target/$arch-unknown-linux-musl/release mtrans
           done
       - name: Upload release artifacts
         uses: actions/upload-artifact@v7
@@ -132,13 +132,13 @@ jobs:
       - name: Build for MacOS
         run: |
           for arch in x86_64 aarch64; do
-            cargo build -p APP --release --target $arch-apple-darwin
+            cargo build -p mtrans --release --target $arch-apple-darwin
           done
       - name: Create release tarballs
         run: |
           mkdir ${{ env.RELEASE_DIR }}
           for arch in x86_64 aarch64; do
-            tar -cJf "${{ env.RELEASE_DIR }}/APP-v${{ needs.extract-version.outputs.version }}-$arch-apple-darwin.tar.xz" -C target/$arch-apple-darwin/release APP
+            tar -cJf "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-apple-darwin.tar.xz" -C target/$arch-apple-darwin/release mtrans
           done
       - name: Upload release artifacts
         uses: actions/upload-artifact@v7
@@ -174,14 +174,14 @@ jobs:
         shell: bash
         run: |
           for arch in x86_64 aarch64; do
-            cargo build -p APP --release --target $arch-pc-windows-msvc
+            cargo build -p mtrans --release --target $arch-pc-windows-msvc
           done
       - name: Create release zip files
         shell: bash
         run: |
           mkdir "${{ env.RELEASE_DIR }}"
           for arch in x86_64 aarch64; do
-            zip -j "${{ env.RELEASE_DIR }}/APP-v${{ needs.extract-version.outputs.version }}-$arch-pc-windows-msvc.zip" target/$arch-pc-windows-msvc/release/APP.exe
+            zip -j "${{ env.RELEASE_DIR }}/mtrans-v${{ needs.extract-version.outputs.version }}-$arch-pc-windows-msvc.zip" target/$arch-pc-windows-msvc/release/mtrans.exe
           done
       - name: Upload release artifacts
         uses: actions/upload-artifact@v7
@@ -241,4 +241,4 @@ jobs:
         if: steps.check-token.outputs.has_token == 'true'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish -p APP
+        run: cargo publish -p mtrans
