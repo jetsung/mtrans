@@ -28,6 +28,7 @@ jobs:
     outputs:
       tag: ${{ steps.tag.outputs.TAG_NAME }}
       version: ${{ steps.tag.outputs.VERSION }}
+      checkout_ref: ${{ steps.tag.outputs.CHECKOUT_REF }}
     steps:
       - name: Extract tag name
         id: tag
@@ -37,6 +38,13 @@ jobs:
           VERSION="${TAG#v}"
           echo "TAG_NAME=$TAG" >> $GITHUB_OUTPUT
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          # 手动触发（补发资产）：用当前触发分支（main/dev 等）的最新代码构建
+          # tag 推送：用 tag 指向的代码构建
+          if [ -n "${{ inputs.tag_name }}" ]; then
+            echo "CHECKOUT_REF=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "CHECKOUT_REF=$TAG" >> $GITHUB_OUTPUT
+          fi
 
   build-linux:
     needs: [extract-version]
@@ -44,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-            ref: ${{ needs.extract-version.outputs.tag }}
+            ref: ${{ needs.extract-version.outputs.checkout_ref }}
             submodules: true
       - name: Update Rust
         run: |
@@ -116,7 +124,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-            ref: ${{ needs.extract-version.outputs.tag }}
+            ref: ${{ needs.extract-version.outputs.checkout_ref }}
             submodules: true
       - name: Update Rust
         run: |
@@ -153,7 +161,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-            ref: ${{ needs.extract-version.outputs.tag }}
+            ref: ${{ needs.extract-version.outputs.checkout_ref }}
             submodules: true
       - name: Update Rust
         run: |
@@ -212,8 +220,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-crates:
-    # beta 版本不发布到 crates.io
-    if: ${{ !contains(needs.extract-version.outputs.tag, '-beta') }}
+    # 仅 tag 推送时发布；手动补发资产不重复发布（版本已在 crates.io 存在，会报错）
+    if: ${{ github.event_name == 'push' && !contains(needs.extract-version.outputs.tag, '-beta') }}
     needs: [extract-version, create-release]
     runs-on: ubuntu-24.04
     steps:
@@ -231,6 +239,7 @@ jobs:
       - uses: actions/checkout@v7
         if: steps.check-token.outputs.has_token == 'true'
         with:
+          # crates.io 发布必须使用 tag 对应的源码（Cargo.toml 中的版本号需与发布版本一致）
           ref: ${{ needs.extract-version.outputs.tag }}
       - name: Update Rust
         if: steps.check-token.outputs.has_token == 'true'
