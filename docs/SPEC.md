@@ -15,6 +15,7 @@ mtrans 把容器镜像从**源镜像**所在的注册表复制到**目标注册�
 
 ## 2. 构建与安装
 
+- **一键脚本**：`curl -fsSL https://mtrans.gcli.cn/install.sh | bash`。
 - **cargo install（推荐）**：`cargo install mtrans`（crates.io）或 `cargo install --git https://github.com/jetsung/mtrans.git`（Git 仓库），安装后直接调用 `docker-mtrans`。
 - **构建**：仓库根目录执行 `cargo build --release`，产物为单文件 CLI（`target/release/docker-mtrans`）。
 - **独立运行**：直接调用可执行文件，如 `docker-mtrans sync <源镜像>`。

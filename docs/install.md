@@ -6,6 +6,12 @@ icon: lucide/hammer
 
 ## 安装
 
+### 一键安装脚本
+
+```bash
+curl -fsSL https://mtrans.gcli.cn/install.sh | bash
+```
+
 ### cargo install（推荐）
 
 ```bash

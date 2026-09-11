@@ -14,6 +14,9 @@ Docker 镜像复制工具：把源镜像复制到**目标注册表**，也可反
 ## 安装
 
 ```bash
+# 一键安装脚本
+curl -fsSL https://mtrans.gcli.cn/install.sh | bash
+
 # 从 crates.io 安装
 cargo install mtrans
 

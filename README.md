@@ -14,6 +14,9 @@ Docker image replication tool: copies source images to a **target registry**, an
 ## Installation
 
 ```bash
+# One-line install script
+curl -fsSL https://mtrans.gcli.cn/install.sh | bash
+
 # From crates.io
 cargo install mtrans
 
