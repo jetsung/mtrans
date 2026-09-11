@@ -1834,6 +1834,7 @@
 <p>平台：Windows、Linux、macOS 三端均可运行，详见第 8 节。</p>
 <h2 id="2">2. 构建与安装<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
 <ul>
+<li><strong>一键脚本</strong>：<code>curl -fsSL https://mtrans.gcli.cn/install.sh | bash</code>。</li>
 <li><strong>cargo install（推荐）</strong>：<code>cargo install mtrans</code>（crates.io）或 <code>cargo install --git https://github.com/jetsung/mtrans.git</code>（Git 仓库），安装后直接调用 <code>docker-mtrans</code>。</li>
 <li><strong>构建</strong>：仓库根目录执行 <code>cargo build --release</code>，产物为单文件 CLI（<code>target/release/docker-mtrans</code>）。</li>
 <li><strong>独立运行</strong>：直接调用可执行文件，如 <code>docker-mtrans sync &lt;源镜像&gt;</code>。</li>
