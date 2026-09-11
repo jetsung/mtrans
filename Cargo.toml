@@ -6,7 +6,7 @@ authors = ["Jetsung <i@jetsung.com>"]
 license = "Apache-2.0"
 repository = "https://github.com/jetsung/mtrans"
 description = "Copy container images to a target registry (and pull them back to local) via remote GitHub Actions workflows"
-keywords = ["docker", "mirror", "cache", "github-actions", "cli", "trans"]
+keywords = ["docker", "mirror", "cache", "github-actions", "cli"]
 categories = ["command-line-utilities"]
 
 [[bin]]
