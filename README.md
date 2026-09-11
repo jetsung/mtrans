@@ -11,17 +11,28 @@ Docker image replication tool: copies source images to a **target registry**, an
 - **Cross-platform**: Endpoint resolution auto-detects Windows named pipes and Linux/macOS default sockets; config paths respect `DOCKER_CONFIG`/`XDG_CONFIG_HOME`.
 - **Chinese/English interface**: `help`/`man`/`--help` and runtime output (progress/success/error messages) switch between Chinese and English based on system language (`LANG`/`LC_ALL`/`LC_MESSAGES`), defaulting to English.
 
+## Installation
+
+```bash
+# From crates.io
+cargo install mtrans
+
+# Or from the Git repository
+cargo install --git https://github.com/jetsung/mtrans.git
+```
+
+Or build from source: `cargo build --release` (binary at `target/release/docker-mtrans`).
+
 ## Quick Start
 
 ```bash
-cargo build --release
-# Replicate image to target registry (triggers remote workflow; must be logged into target registry)
-target/release/docker-mtrans sync ghcr.io/jetsung/shortener:latest
-# Pull back from target registry and rename
-target/release/docker-mtrans pull ghcr.io/jetsung/shortener:latest
-# Override parameters: temporarily switch target without writing back to config.toml
-target/release/docker-mtrans sync alpine:latest -R new.example.com -o myorg -m 2
-# Or use as a docker plugin
+# 复制镜像到目标注册表（触发远程流水线，须已登录目标注册表）
+docker-mtrans sync ghcr.io/jetsung/shortener:latest
+# 从目标注册表拉回并重命名
+docker-mtrans pull ghcr.io/jetsung/shortener:latest
+# 覆盖参数：临时换目标，不写回 config.toml
+docker-mtrans sync alpine:latest -R new.example.com -o myorg -m 2
+# 也可作为 docker 插件
 docker mtrans sync ghcr.io/jetsung/shortener:latest
 ```
 

@@ -1,0 +1,132 @@
+[project]
+site_url = "https://jetsung.github.io/mtrans/"
+site_name = "mtrans"
+site_description = "把容器镜像复制到目标注册表、并可反向拉回本地的 CLI 工具"
+site_author = "jetsung"
+
+copyright = "Copyright &copy; 2026 jetsung"
+
+repo_url = "https://github.com/jetsung/mtrans"
+repo_name = "jetsung/mtrans"
+edit_uri = "edit/main/docs/"
+
+nav = [
+  { "首页" = "index.md" },
+  { "快速开始" = [
+    { "快速开始" = "quickstart.md" },
+    { "构建与安装" = "install.md" },
+  ]},
+  { "配置" = [
+    { "配置总览" = "config/index.md" },
+    { "交互向导" = "config/wizard.md" },
+  ]},
+  { "命令" = [
+    { "命令总览" = "commands/index.md" },
+    { "sync — 远程复制" = "commands/sync.md" },
+    { "pull — 反向拉回" = "commands/pull.md" },
+    { "spull — 复制并拉回" = "commands/spull.md" },
+    { "secret — 打印加密凭据" = "commands/secret.md" },
+    { "import — 同步登录注册表" = "commands/import.md" },
+    { "registry — 选择目标注册表" = "commands/registry.md" },
+    { "passphrase — 设置加密口令" = "commands/passphrase.md" },
+    { "ci — 输出工作流模板" = "commands/ci.md" },
+    { "help / man — 查看帮助" = "commands/help.md" },
+  ]},
+  { "进阶" = [
+    { "目标镜像组合规则" = "advanced/naming-rules.md" },
+    { "凭据加密与打掩码" = "advanced/credentials.md" },
+    { "部署 GitHub Actions 工作流" = "advanced/workflow.md" },
+    { "平台支持" = "advanced/platform.md" },
+  ]},
+  { "参考" = [
+    { "术语表" = "CONTEXT.md" },
+    { "键名速查" = "reference/config-keys.md" },
+    { "规范（SPEC）" = "SPEC.md" },
+    { "架构决策（ADR）" = [
+      { "ADR-0001 仅远程触发复制" = "adr/0001-only-remote-trigger.md" },
+      { "ADR-0002 凭据加密与打掩码" = "adr/0002-credentials-never-stored.md" },
+      { "ADR-0003 mode 2 不保留源组织" = "adr/0003-mode2-drops-source-org.md" },
+      { "ADR-0004 行改写保留注释" = "adr/0004-line-rewrite-preserves-comments.md" },
+    ]},
+  ]},
+]
+
+[project.theme]
+language = "zh"
+features = [
+  "announce.dismiss",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+]
+
+[project.theme.icon]
+repo = "fontawesome/brands/github"
+
+[project.theme.font]
+text = "Noto Sans SC"
+code = "JetBrains Mono"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "切换亮色模式"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "indigo"
+toggle.icon = "lucide/sun"
+toggle.name = "切换到暗色模式"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "indigo"
+toggle.icon = "lucide/moon"
+toggle.name = "跟随系统偏好"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/jetsung/mtrans"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}

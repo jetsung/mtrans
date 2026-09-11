@@ -11,16 +11,27 @@ Docker 镜像复制工具：把源镜像复制到**目标注册表**，也可反
 - **跨平台**：端点解析自动识别 Windows 命名管道与 Linux/macOS 默认 socket；配置路径尊重 `DOCKER_CONFIG`/`XDG_CONFIG_HOME`。
 - **中文/英文界面**：`help`/`man`/`--help` 与运行时输出（进度/成功/错误提示）均按系统语言（`LANG`/`LC_ALL`/`LC_MESSAGES`）中英切换，默认英文。
 
+## 安装
+
+```bash
+# 从 crates.io 安装
+cargo install mtrans
+
+# 或从 Git 仓库安装
+cargo install --git https://github.com/jetsung/mtrans.git
+```
+
+或从源码构建：`cargo build --release`（产物在 `target/release/docker-mtrans`）。
+
 ## 快速开始
 
 ```bash
-cargo build --release
 # 复制镜像到目标注册表（触发远程流水线，须已登录目标注册表）
-target/release/docker-mtrans sync ghcr.io/jetsung/shortener:latest
+docker-mtrans sync ghcr.io/jetsung/shortener:latest
 # 从目标注册表拉回并重命名
-target/release/docker-mtrans pull ghcr.io/jetsung/shortener:latest
+docker-mtrans pull ghcr.io/jetsung/shortener:latest
 # 覆盖参数：临时换目标，不写回 config.toml
-target/release/docker-mtrans sync alpine:latest -R new.example.com -o myorg -m 2
+docker-mtrans sync alpine:latest -R new.example.com -o myorg -m 2
 # 也可作为 docker 插件
 docker mtrans sync ghcr.io/jetsung/shortener:latest
 ```
