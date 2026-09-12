@@ -3,3 +3,9 @@
 __pycache__/
 /config.toml
 site/
+
+# Tencent Cloud EdgeOne
+.env
+.edgeone/*
+.tef_dist/*
+  
